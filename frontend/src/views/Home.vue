@@ -24,7 +24,7 @@ export default {
 
     const getMessage = () => {
       window.backend
-        .basic()
+        .fetchIssueList()
         .then((res) => {
           message.value = res;
         })
