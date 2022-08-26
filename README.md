@@ -25,3 +25,14 @@ wails init
 ```bash
 wails build
 ```
+
+# Local Develop
+開発環境の立ち上げ
+``` bash
+# cost-manager 階層で
+wails serve
+```
+```bash
+# const-manager/frontend　階層で
+npm run serve
+```
