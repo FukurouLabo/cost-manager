@@ -40,5 +40,4 @@ func main() {
 	})
 	app.Bind(fetchIssueList)
 	app.Run()
-
 }
