@@ -1,29 +1,25 @@
 package main
 
 import (
+	"cost-manager/lib"
 	_ "embed"
-
+	"github.com/andygrunwald/go-jira"
 	"github.com/wailsapp/wails"
+	"golang.org/x/net/context"
 )
 
-func basic() string {
-	return "Hello World!"
+var (
+	jiraClient *lib.JiraClient
+)
+
+func init() {
+	jiraClient, _ = lib.NewJiraClient()
 }
 
-func testTicketList() []map[string]string {
-	ticketList := []map[string]string{
-		{
-			"name":   "test ticket",
-			"url":    "https://test.cost-manager.com",
-			"number": "CV-99999",
-		},
-		{
-			"name":   "test ticket 2",
-			"url":    "https://test.cost-manager.com",
-			"number": "CV-99999",
-		},
-	}
-	return ticketList
+func fetchIssueList() []jira.Issue {
+	// TODO: jql は変更する必要あり
+	issues, _, _ := jiraClient.Client.Issue.SearchWithContext(context.Background(), "assignee!=aaa", nil)
+	return issues
 }
 
 //go:embed frontend/dist/app.js
@@ -42,7 +38,6 @@ func main() {
 		CSS:    css,
 		Colour: "#131313",
 	})
-	app.Bind(basic)
-	app.Bind(testTicketList)
+	app.Bind(fetchIssueList)
 	app.Run()
 }
