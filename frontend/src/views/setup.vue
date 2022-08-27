@@ -16,7 +16,7 @@
             Jiraアカウントで使用しているメールアドレスを入力してください。
           </p>
         </label>
-        <input id="mail" v-model="mail" type="text">
+        <input id="mail" v-model="mail" type="email">
       </div>
       <div class="input-block">
         <label for="token">
@@ -55,7 +55,7 @@ export default {
     createConfigFile() {
       // Configファイル生成
       window.backend
-        .fetchConfigFileExists()
+        .createConfigFile(this.mail, this.token)
         .then((res) => {
           console.log(res);
           // TODO:バックエンドの実装が完了したらコメントアウト撤去
