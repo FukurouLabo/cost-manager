@@ -25,10 +25,6 @@ func fetchIssueList() []jira.Issue {
 	return issues
 }
 
-func fetchRecordingIssueId() string {
-	return ""
-}
-
 //go:embed frontend/dist/app.js
 var js string
 
@@ -46,7 +42,7 @@ func main() {
 		Colour: "#131313",
 	})
 	app.Bind(fetchIssueList)
-	app.Bind(fetchRecordingIssueId)
+	app.Bind(fetchState)
 	app.Bind(start)
 	// app.Bind(finish)
 	app.Run()
