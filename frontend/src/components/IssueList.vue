@@ -152,7 +152,7 @@ export default {
   color: #5571a2;
 }
 h1 {
-  color: #fff;
+  color: #ebebeb;
 }
 h1.active {
   color: #FF719A;
@@ -162,8 +162,16 @@ h1.active {
   justify-content: flex-end;
   button {
     width: 74px;
-    padding: 5px 20px 2px;
+    padding: 5px 20px 0;
     cursor: pointer;
+    background: #ebebeb;
+    border: solid 1px #ebebeb;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    transition: .2s;
+    &:hover {
+      opacity: .7;
+    }
     img {
       width: 80%;
     }

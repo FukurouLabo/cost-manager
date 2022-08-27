@@ -1,12 +1,18 @@
 import {createMemoryHistory, createRouter} from 'vue-router'
-import IssueList from '../views/IssueList.vue'
+import Index from '../views/index.vue'
+import Setup from '../views/setup.vue'
 
 
 const routes = [
   {
     path: '/',
-    name: 'Top',
-    component: IssueList
+    name: 'Index',
+    component: Index
+  },
+  {
+    path: '/setup',
+    name: 'Setup',
+    component: Setup
   }
 ]
 
