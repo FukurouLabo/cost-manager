@@ -15,7 +15,7 @@ var (
 )
 
 func init() {
-	jiraClient, _ = lib.NewJiraClient()
+	JiraClient, _ = lib.NewJiraClient()
 	jiraUser, _, _ = jiraClient.Client.User.GetSelf()
 }
 
@@ -44,6 +44,6 @@ func main() {
 	app.Bind(fetchIssueList)
 	app.Bind(fetchState)
 	app.Bind(start)
-	// app.Bind(finish)
+	app.Bind(finish)
 	app.Run()
 }
