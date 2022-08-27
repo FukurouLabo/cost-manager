@@ -11,7 +11,6 @@ var (
 
 type Issue struct {
 	ID         string        `json:"id"`
-	Name       string        `json:"name"`
 	StartedAt  time.Time     `json:"started_at"`
 	FinishedAt time.Time     `json:"finished_at"`
 	Duration   time.Duration `json:"duration"`

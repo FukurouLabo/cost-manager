@@ -5,13 +5,11 @@ import (
 	"time"
 )
 
-func start() error {
+func start(id string) error {
 	_ = lib.CacheInit()
-	issues := fetchIssueList()
-	i := issues[0]
+
 	issue := lib.Issue{
-		ID:        i.ID,
-		Name:      i.Fields.Summary,
+		ID:        id,
 		StartedAt: time.Now(),
 	}
 
