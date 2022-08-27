@@ -3,6 +3,7 @@ package main
 import (
 	"cost-manager/lib"
 	_ "embed"
+
 	"github.com/andygrunwald/go-jira"
 	"github.com/wailsapp/wails"
 	"golang.org/x/net/context"
@@ -22,6 +23,10 @@ func fetchIssueList() []jira.Issue {
 	return issues
 }
 
+func fetchRecordingIssueId() string {
+	return "41156"
+}
+
 //go:embed frontend/dist/app.js
 var js string
 
@@ -39,5 +44,6 @@ func main() {
 		Colour: "#131313",
 	})
 	app.Bind(fetchIssueList)
+	app.Bind(fetchRecordingIssueId)
 	app.Run()
 }
