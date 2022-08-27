@@ -15,8 +15,9 @@ var (
 )
 
 func init() {
-	JiraClient, _ = lib.NewJiraClient()
+	jiraClient, _ = lib.NewJiraClient()
 	jiraUser, _, _ = jiraClient.Client.User.GetSelf()
+	_ = lib.CacheInit()
 }
 
 func fetchIssueList() []jira.Issue {
