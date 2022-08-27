@@ -32,15 +32,15 @@ func IssueRead(trackPath string) ([]*Issue, error) {
 	}
 
 	if len(jsonBytes) == 0 {
-		return issues, nil
+		return Issues, nil
 	}
 
-	err = json.Unmarshal(jsonBytes, &issues)
+	err = json.Unmarshal(jsonBytes, &Issues)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	return issues, nil
+	return Issues, nil
 }
 
 func Write(trackPath string, histories []*Issue) error {

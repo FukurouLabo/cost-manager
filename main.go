@@ -15,7 +15,7 @@ var (
 )
 
 func init() {
-	jiraClient, _ = lib.NewJiraClient()
+	JiraClient, _ = lib.NewJiraClient()
 	jiraUser, _, _ = jiraClient.Client.User.GetSelf()
 }
 
@@ -23,10 +23,6 @@ func fetchIssueList() []jira.Issue {
 	jql := "assignee=" + jiraUser.AccountID + "&status!=done"
 	issues, _, _ := jiraClient.Client.Issue.SearchWithContext(context.Background(), jql, nil)
 	return issues
-}
-
-func fetchRecordingIssueId() string {
-	return ""
 }
 
 //go:embed frontend/dist/app.js
@@ -46,8 +42,8 @@ func main() {
 		Colour: "#131313",
 	})
 	app.Bind(fetchIssueList)
-	app.Bind(fetchRecordingIssueId)
+	app.Bind(fetchState)
 	app.Bind(start)
-	// app.Bind(finish)
+	app.Bind(finish)
 	app.Run()
 }
