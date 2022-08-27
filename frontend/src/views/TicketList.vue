@@ -1,19 +1,20 @@
 <template>
-  <div class="about">
-    <h1>Ticket List</h1>
-    <div class="ticket-list">
+  <div>
+    <h1 v-if="!selectedIssueId">Issue List</h1>
+    <h1 v-if="selectedIssueId" class="active">Recoding...</h1>
+    <div class="issue-list">
       <div 
-        v-for="ticket in ticketList"
-        :key="ticket.id"
-        class="ticket"
-        @click="selectTicket(ticket.id, ticket.fields.summary)"
-        v-bind:class="judgementTicket(ticket.id)"
+        v-for="issue in issueList"
+        :key="issue.id"
+        class="issue"
+        @click="selectIssue(issue.id, issue.fields.summary)"
+        v-bind:class="judgementIssue(issue.id)"
       >
         <div class="header">
-          <p class="key">{{ticket.key}}</p>
+          <p class="key">{{issue.key}} | {{issue.id}}</p>
           <div class="fields">
-            <p class="summary">{{ticket.fields.summary}}</p>
-            <p class="self">{{ticket.self}}</p>
+            <p class="summary">{{issue.fields.summary}}</p>
+            <p class="self">{{issue.self}}</p>
           </div>
         </div>
       </div>
@@ -25,37 +26,66 @@
 export default {
   data() {
   return {
-      ticketList: null,
-      selectedTicketId: null,
-      selectedTicketSummary: null,
+      issueList: null,
+      selectedIssueId: null,
+      selectedIssueSummary: null,
     }
   },
   mounted() {
+    // 起動時に前回記録中になっているIssueが無いか確認
     window.backend
-      .fetchIssueList()
+      .fetchRecordingIssueId()
       .then((res) => {
-        this.ticketList = res
+        this.selectedIssueId = res;
+
+        // Issueの一覧取得
+        window.backend
+          .fetchIssueList()
+          .then((res) => {
+            this.issueList = res.filter(issue => issue.id === this.selectedIssueId);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
   },
   methods: {
-    selectTicket(id, summary) {
-      if (this.selectedTicketId === id) {
-        this.selectedTicketId = null;
-        this.selectedTicketSummary = null;
+    selectIssue(id, summary) {
+      if (this.selectedIssueId === id) {
+        this.selectedIssueId = null;
+        this.selectedIssueSummary = null;
+        // Issueの一覧取得
+        window.backend
+          .fetchIssueList()
+          .then((res) => {
+            this.issueList = res;
+          })
+          .catch((err) => {
+            console.log(err);
+        });
       } else {
-        this.selectedTicketId = id;
-        this.selectedTicketSummary = summary;
-
-        alert(`${this.selectedTicketId}：${this.selectedTicketSummary}`)
+        this.selectedIssueId = id;
+        this.selectedIssueSummary = summary;
+        // Issueの一覧取得
+        window.backend
+          .fetchIssueList()
+          .then((res) => {
+            this.issueList = res.filter(issue => issue.id === id);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        alert(`${this.selectedIssueId}：${this.selectedIssueSummary}`)
       }
       
     },
-    judgementTicket(id) {
+    judgementIssue(id) {
+      console.log(this.selectedIssueId, id)
       return (
-        (this.selectedTicketId === id) ? "active" : ""
+        (this.selectedIssueId === id) ? "active" : ""
       );
     }
   }
@@ -63,15 +93,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ticket-list * {
+.issue-list * {
   color: #344563;
 }
-.ticket-list {
+h1.active {
+  color: #FF719A;
+}
+.issue-list {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: wrap;
-  .ticket {
+  .issue {
     position: relative;
     display: flex;
     justify-content: center;
@@ -139,7 +172,7 @@ export default {
       }
     }
   }
-  .ticket.active {
+  .issue.active {
     border: solid #FF719A 1px;
     &::after {
       content: 'Record End';
