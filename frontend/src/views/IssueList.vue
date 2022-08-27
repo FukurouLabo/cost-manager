@@ -104,6 +104,15 @@ export default {
         this.issueList =null;
         this.selectedIssueId = null;
         this.selectedIssueSummary = null;
+        // 計測停止
+        window.backend
+          .finish()
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
         // Issueの一覧取得
         window.backend
           .fetchIssueList()
@@ -112,12 +121,20 @@ export default {
           })
           .catch((err) => {
             console.log(err);
-        });
+          });
       } else {
         this.issueList = this.issueList.filter(issue => issue.id === id);
         this.selectedIssueId = id;
         this.selectedIssueSummary = summary;
-        alert(`${this.selectedIssueId}：${this.selectedIssueSummary}`)
+        // 計測開始
+        window.backend
+          .start(id)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
       
     },
