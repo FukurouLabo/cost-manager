@@ -3,11 +3,10 @@
     <h1 v-if="!selectedIssueId">Issue List</h1>
     <h1 v-if="selectedIssueId" class="active">Recoding...</h1>
     <div class="refresh">
-      <button>
+      <button @click="fetchIssueList">
         <img
           alt="refresh"
           src="../assets/refresh.png"
-          @click="fetchIssueList"
         />
       </button>
     </div>
@@ -82,23 +81,23 @@ export default {
       .then((id) => {
         this.selectedIssueId = id;
 
-        // Issueの一覧取得
-        window.backend
-          .fetchIssueList()
-          .then((res) => {
-            if (id) {
-              this.issueList = res.filter(issue => issue.id === id);
-            } else {
-              this.issueList = res;
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+          // Issueの一覧取得
+          window.backend
+            .fetchIssueList()
+            .then((res) => {
+              if (id) {
+                this.issueList = res.filter(issue => issue.id === id);
+              } else {
+                this.issueList = res;
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     selectIssue(id, summary) {
       if (this.selectedIssueId === id) {
@@ -123,7 +122,6 @@ export default {
       
     },
     judgementIssue(id) {
-      console.log(this.selectedIssueId, id)
       return (
         (this.selectedIssueId === id) ? "active" : ""
       );
@@ -134,7 +132,10 @@ export default {
 
 <style lang="scss" scoped>
 .issue-list * {
-  color: #344563;
+  color: #5571a2;
+}
+h1 {
+  color: #fff;
 }
 h1.active {
   color: #FF719A;
