@@ -39,3 +39,12 @@ func NewJiraClient() (*JiraClient, error) {
 		Client: jiraClient,
 	}, nil
 }
+
+func (jc *JiraClient) AddWorklog(issueId string, record *jira.WorklogRecord) error {
+	_, _, err := jc.Client.Issue.AddWorklogRecord(issueId, record)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
