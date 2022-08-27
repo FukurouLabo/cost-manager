@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	issues []*Issue
+	Issues []*Issue
 )
 
 type Issue struct {
