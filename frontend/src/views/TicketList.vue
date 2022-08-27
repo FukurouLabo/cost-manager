@@ -1,13 +1,19 @@
 <template>
   <div class="about">
-    <h1>チケット一覧</h1>
+    <h1>Ticket List</h1>
     <div class="ticket-list">
-      <div v-for="ticket in ticketList" :key="ticket.name" class="ticket" @click="selectTicket(ticket.name)">
+      <div 
+        v-for="ticket in ticketList"
+        :key="ticket.id"
+        class="ticket"
+        @click="selectTicket(ticket.id, ticket.fields.summary)"
+        v-bind:class="judgementTicket(ticket.id)"
+      >
         <div class="header">
-          <p class="id">{{ticket.number}}</p>
-          <div class="title">
-            <p class="name">{{ticket.name}}</p>
-            <p class="url">{{ticket.url}}</p>
+          <p class="key">{{ticket.key}}</p>
+          <div class="fields">
+            <p class="summary">{{ticket.fields.summary}}</p>
+            <p class="self">{{ticket.self}}</p>
           </div>
         </div>
       </div>
@@ -20,11 +26,13 @@ export default {
   data() {
   return {
       ticketList: null,
+      selectedTicketId: null,
+      selectedTicketSummary: null,
     }
   },
   mounted() {
     window.backend
-      .testTicketList()
+      .fetchIssueList()
       .then((res) => {
         this.ticketList = res
       })
@@ -33,8 +41,22 @@ export default {
       });
   },
   methods: {
-    selectTicket(name) {
-      alert(name);
+    selectTicket(id, summary) {
+      if (this.selectedTicketId === id) {
+        this.selectedTicketId = null;
+        this.selectedTicketSummary = null;
+      } else {
+        this.selectedTicketId = id;
+        this.selectedTicketSummary = summary;
+
+        alert(`${this.selectedTicketId}：${this.selectedTicketSummary}`)
+      }
+      
+    },
+    judgementTicket(id) {
+      return (
+        (this.selectedTicketId === id) ? "active" : ""
+      );
     }
   }
 };
@@ -50,6 +72,7 @@ export default {
   align-items: flex-start;
   flex-wrap: wrap;
   .ticket {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -59,14 +82,30 @@ export default {
     border: solid #344563 1px;
     cursor: pointer;
     transition: .3s;
+    &::after {
+      content: 'Record Start';
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, .7);
+      color: #fff;
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
     &:hover {
       opacity: .7;
+      &::after {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
     .header {
       display: flex;
       justify-content: flex-start;
       width: 100%;
-      .id {
+      .key {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -76,12 +115,14 @@ export default {
         font-weight: bold;
         margin: 0;
         padding: 20px;
+        width: 20%;
       }
-      .title {
+      .fields {
         display: flex;
         justify-content: flex-start;
         flex-wrap: wrap;
-        .name {
+        width: 80%;
+        .summary {
           width: 100%;
           font-size: 20px;
           font-weight: bold;
@@ -89,7 +130,7 @@ export default {
           margin: 0;
           padding: 20px 20px 0;
         }
-        .url {
+        .self {
           width: 100%;
           text-align: left;
           margin: 0;
@@ -98,5 +139,45 @@ export default {
       }
     }
   }
+  .ticket.active {
+    border: solid #FF719A 1px;
+    &::after {
+      content: 'Record End';
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, .7);
+      color: #fff;
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    &:hover {
+      opacity: .7;
+      &::after {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    .header {
+      .key {
+        background-image: linear-gradient(-225deg, #FFE29F 0%, #FFA99F 48%, #FF719A 100%);
+        background-size: 200% 200%;
+        animation: bggradient 5s ease infinite;
+      }
+      .fields {
+        .summary, .self {
+          color: #FF719A;
+        }
+      }
+    }
+  }
+}
+
+@keyframes bggradient{
+	0% { background-position: 0% 50% }
+	50% { background-position: 100% 50% }
+	100% { background-position: 0% 50% }
 }
 </style>
