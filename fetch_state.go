@@ -1,10 +1,10 @@
 package main
 
 import (
+	"cost-manager/lib"
 	"encoding/json"
 	"io/ioutil"
 	"log"
-	"cost-manager/lib"
 )
 
 func fetchState() string {
@@ -24,7 +24,6 @@ func fetchState() string {
 
 	return lastHistory.ID
 }
-
 
 func trackRead(trackPath string) ([]*lib.Issue, error) {
 	jsonBytes, err := ioutil.ReadFile(trackPath)
