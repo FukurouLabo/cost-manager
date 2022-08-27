@@ -47,5 +47,7 @@ func main() {
 	})
 	app.Bind(fetchIssueList)
 	app.Bind(fetchRecordingIssueId)
+	app.Bind(start)
+	// app.Bind(finish)
 	app.Run()
 }
