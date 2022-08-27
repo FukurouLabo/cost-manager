@@ -1,7 +1,7 @@
 import {createMemoryHistory, createRouter} from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
-import Test from '../views/TicketList.vue'
+import Test from '../views/IssueList.vue'
 
 
 const routes = [
