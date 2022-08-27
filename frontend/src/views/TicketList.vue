@@ -35,14 +35,18 @@ export default {
     // 起動時に前回記録中になっているIssueが無いか確認
     window.backend
       .fetchRecordingIssueId()
-      .then((res) => {
-        this.selectedIssueId = res;
+      .then((id) => {
+        this.selectedIssueId = id;
 
         // Issueの一覧取得
         window.backend
           .fetchIssueList()
           .then((res) => {
-            this.issueList = res.filter(issue => issue.id === this.selectedIssueId);
+            if(this.selectedIssueId) {
+              this.issueList = res.filter(issue => issue.id === id);
+            } else {
+              this.issueList = res
+            }
           })
           .catch((err) => {
             console.log(err);
