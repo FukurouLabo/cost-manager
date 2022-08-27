@@ -2,7 +2,19 @@
   <div>
     <h1 v-if="!selectedIssueId">Issue List</h1>
     <h1 v-if="selectedIssueId" class="active">Recoding...</h1>
+    <div class="refresh">
+      <button>
+        <img
+          alt="refresh"
+          src="../assets/refresh.png"
+          @click="fetchIssueList"
+        />
+      </button>
+    </div>
     <div class="issue-list">
+      <div v-if="!issueList" class="loading">
+        <Loading />
+      </div>
       <div 
         v-for="issue in issueList"
         :key="issue.id"
@@ -23,12 +35,18 @@
 </template>
 
 <script>
+import Loading from "@/components/Loading.vue";
+
 export default {
+  name: "IssueList",
+  components: {
+    Loading,
+  },
   data() {
   return {
-      issueList: null,
-      selectedIssueId: null,
-      selectedIssueSummary: null,
+    issueList: null,
+    selectedIssueId: null,
+    selectedIssueSummary: null,
     }
   },
   mounted() {
@@ -42,10 +60,10 @@ export default {
         window.backend
           .fetchIssueList()
           .then((res) => {
-            if(this.selectedIssueId) {
+            if (id) {
               this.issueList = res.filter(issue => issue.id === id);
             } else {
-              this.issueList = res
+              this.issueList = res;
             }
           })
           .catch((err) => {
@@ -57,8 +75,34 @@ export default {
       })
   },
   methods: {
+    fetchIssueList() {
+      this.issueList = null;
+      window.backend
+      .fetchRecordingIssueId()
+      .then((id) => {
+        this.selectedIssueId = id;
+
+        // Issueの一覧取得
+        window.backend
+          .fetchIssueList()
+          .then((res) => {
+            if (id) {
+              this.issueList = res.filter(issue => issue.id === id);
+            } else {
+              this.issueList = res;
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    },
     selectIssue(id, summary) {
       if (this.selectedIssueId === id) {
+        this.issueList =null;
         this.selectedIssueId = null;
         this.selectedIssueSummary = null;
         // Issueの一覧取得
@@ -71,17 +115,9 @@ export default {
             console.log(err);
         });
       } else {
+        this.issueList = this.issueList.filter(issue => issue.id === id);
         this.selectedIssueId = id;
         this.selectedIssueSummary = summary;
-        // Issueの一覧取得
-        window.backend
-          .fetchIssueList()
-          .then((res) => {
-            this.issueList = res.filter(issue => issue.id === id);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
         alert(`${this.selectedIssueId}：${this.selectedIssueSummary}`)
       }
       
@@ -102,6 +138,24 @@ export default {
 }
 h1.active {
   color: #FF719A;
+}
+.refresh {
+  display: flex;
+  justify-content: flex-end;
+  button {
+    width: 74px;
+    padding: 5px 20px 2px;
+    cursor: pointer;
+    img {
+      width: 80%;
+    }
+  }
+}
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 .issue-list {
   display: flex;
