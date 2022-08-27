@@ -2,6 +2,15 @@
   <div>
     <h1 v-if="!selectedIssueId">Issue List</h1>
     <h1 v-if="selectedIssueId" class="active">Recoding...</h1>
+    <div class="refresh">
+      <button>
+        <img
+          alt="refresh"
+          src="../assets/refresh.png"
+          @click="fetchIssueList"
+        />
+      </button>
+    </div>
     <div class="issue-list">
       <div v-if="!issueList" class="loading">
         <Loading />
@@ -44,14 +53,18 @@ export default {
     // 起動時に前回記録中になっているIssueが無いか確認
     window.backend
       .fetchRecordingIssueId()
-      .then((res) => {
-        this.selectedIssueId = res;
+      .then((id) => {
+        this.selectedIssueId = id;
 
         // Issueの一覧取得
         window.backend
           .fetchIssueList()
           .then((res) => {
-            this.issueList = res.filter(issue => issue.id === this.selectedIssueId);
+            if (id) {
+              this.issueList = res.filter(issue => issue.id === id);
+            } else {
+              this.issueList = res;
+            }
           })
           .catch((err) => {
             console.log(err);
@@ -62,6 +75,31 @@ export default {
       })
   },
   methods: {
+    fetchIssueList() {
+      this.issueList = null;
+      window.backend
+      .fetchRecordingIssueId()
+      .then((id) => {
+        this.selectedIssueId = id;
+
+        // Issueの一覧取得
+        window.backend
+          .fetchIssueList()
+          .then((res) => {
+            if (id) {
+              this.issueList = res.filter(issue => issue.id === id);
+            } else {
+              this.issueList = res;
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    },
     selectIssue(id, summary) {
       if (this.selectedIssueId === id) {
         this.issueList =null;
@@ -100,6 +138,18 @@ export default {
 }
 h1.active {
   color: #FF719A;
+}
+.refresh {
+  display: flex;
+  justify-content: flex-end;
+  button {
+    width: 74px;
+    padding: 5px 20px 2px;
+    cursor: pointer;
+    img {
+      width: 80%;
+    }
+  }
 }
 .loading {
   display: flex;

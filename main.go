@@ -11,20 +11,22 @@ import (
 
 var (
 	jiraClient *lib.JiraClient
+	jiraUser   *jira.User
 )
 
 func init() {
 	jiraClient, _ = lib.NewJiraClient()
+	jiraUser, _, _ = jiraClient.Client.User.GetSelf()
 }
 
 func fetchIssueList() []jira.Issue {
-	// TODO: jql は変更する必要あり
-	issues, _, _ := jiraClient.Client.Issue.SearchWithContext(context.Background(), "assignee!=aaa", nil)
+	jql := "assignee=" + jiraUser.AccountID + "&status!=done"
+	issues, _, _ := jiraClient.Client.Issue.SearchWithContext(context.Background(), jql, nil)
 	return issues
 }
 
 func fetchRecordingIssueId() string {
-	return "41156"
+	return ""
 }
 
 //go:embed frontend/dist/app.js
