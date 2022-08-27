@@ -11,7 +11,7 @@ import (
 
 var (
 	jiraClient *lib.JiraClient
-	jiraUser *jira.User
+	jiraUser   *jira.User
 )
 
 func init() {
@@ -21,12 +21,12 @@ func init() {
 
 func fetchIssueList() []jira.Issue {
 	jql := "assignee=" + jiraUser.AccountID + "&status!=done"
-	issues, _, _ := jiraClient.Client.Issue.SearchWithContext(context.Background(), jql , nil)
+	issues, _, _ := jiraClient.Client.Issue.SearchWithContext(context.Background(), jql, nil)
 	return issues
 }
 
 func fetchRecordingIssueId() string {
-	return "41156"
+	return ""
 }
 
 //go:embed frontend/dist/app.js
