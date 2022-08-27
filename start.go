@@ -1,17 +1,17 @@
 package main
 
 import (
-	"time"
 	"cost-manager/lib"
+	"time"
 )
 
 func start() error {
-	lib.CacheInit()
+	_ = lib.CacheInit()
 	issues := fetchIssueList()
 	i := issues[0]
 	issue := lib.Issue{
-		ID: i.ID,
-		Name: i.Fields.Summary,
+		ID:        i.ID,
+		Name:      i.Fields.Summary,
 		StartedAt: time.Now(),
 	}
 
