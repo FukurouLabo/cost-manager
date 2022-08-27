@@ -2,7 +2,13 @@
   <div class="about">
     <h1>Ticket List</h1>
     <div class="ticket-list">
-      <div v-for="ticket in ticketList" :key="ticket.key" class="ticket" @click="selectTicket(ticket.key)" v-bind:class="judgementTicket(ticket.key)">
+      <div 
+        v-for="ticket in ticketList"
+        :key="ticket.id"
+        class="ticket"
+        @click="selectTicket(ticket.id, ticket.fields.summary)"
+        v-bind:class="judgementTicket(ticket.id)"
+      >
         <div class="header">
           <p class="key">{{ticket.key}}</p>
           <div class="fields">
@@ -20,7 +26,8 @@ export default {
   data() {
   return {
       ticketList: null,
-      selectedTicket: null,
+      selectedTicketId: null,
+      selectedTicketSummary: null,
     }
   },
   mounted() {
@@ -34,17 +41,21 @@ export default {
       });
   },
   methods: {
-    selectTicket(key) {
-      if (this.selectedTicket === key) {
-        this.selectedTicket = null;
+    selectTicket(id, summary) {
+      if (this.selectedTicketId === id) {
+        this.selectedTicketId = null;
+        this.selectedTicketSummary = null;
       } else {
-        this.selectedTicket = key
+        this.selectedTicketId = id;
+        this.selectedTicketSummary = summary;
+
+        alert(`${this.selectedTicketId}：${this.selectedTicketSummary}`)
       }
       
     },
-    judgementTicket(key) {
+    judgementTicket(id) {
       return (
-        (this.selectedTicket === key) ? "active" : ""
+        (this.selectedTicketId === id) ? "active" : ""
       );
     }
   }
@@ -72,7 +83,7 @@ export default {
     cursor: pointer;
     transition: .3s;
     &::after {
-      content: '記録開始！';
+      content: 'Record Start';
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, .7);
@@ -131,7 +142,7 @@ export default {
   .ticket.active {
     border: solid #FF719A 1px;
     &::after {
-      content: '記録終了！';
+      content: 'Record End';
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, .7);
