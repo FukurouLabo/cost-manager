@@ -24,13 +24,15 @@ export default {
 
     const getMessage = () => {
       window.backend
-        .fetchIssueList()
+        .start()
         .then((res) => {
           message.value = res;
         })
         .catch((err) => {
           console.log(err);
         });
+      // window.backend
+      //   .start()
     };
 
     return {
