@@ -7,22 +7,22 @@ import (
 	"cost-manager/lib"
 )
 
-func getState() (string, error) {
+func fetchState() string {
 	histories, err := trackRead(lib.TodayPath)
 	if err != nil {
-		return "", err
+		return ""
 	}
 
 	if len(histories) == 0 {
-		return "", nil
+		return ""
 	}
 
 	lastHistory := histories[len(histories)-1]
 	if lastHistory.Duration > 0 {
-		return "", nil
+		return ""
 	}
 
-	return lastHistory.ID, nil
+	return lastHistory.ID
 }
 
 

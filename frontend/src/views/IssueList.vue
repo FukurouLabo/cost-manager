@@ -52,7 +52,7 @@ export default {
   mounted() {
     // 起動時に前回記録中になっているIssueが無いか確認
     window.backend
-      .fetchRecordingIssueId()
+      .fetchState()
       .then((id) => {
         this.selectedIssueId = id;
 
@@ -78,7 +78,7 @@ export default {
     fetchIssueList() {
       this.issueList = null;
       window.backend
-      .fetchRecordingIssueId()
+      .fetchState()
       .then((id) => {
         this.selectedIssueId = id;
 

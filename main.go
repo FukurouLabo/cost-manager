@@ -42,7 +42,7 @@ func main() {
 		Colour: "#131313",
 	})
 	app.Bind(fetchIssueList)
-	app.Bind(getState)
+	app.Bind(fetchState)
 	app.Bind(start)
 	// app.Bind(finish)
 	app.Run()
