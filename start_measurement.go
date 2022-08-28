@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func start(id string) error {
+func startMeasurement(id string) error {
 	_ = lib.CacheInit()
 
 	issue := lib.Issue{

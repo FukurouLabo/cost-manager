@@ -3,7 +3,7 @@
     <h1 v-if="!selectedIssueId">Issue List</h1>
     <h1 v-if="selectedIssueId" class="active">Recoding...</h1>
     <div class="refresh">
-      <button @click="fetchIssueList">
+      <button @click="fetchIssues">
         <img
           alt="refresh"
           src="../assets/refresh.png"
@@ -51,13 +51,13 @@ export default {
   mounted() {
     // 起動時に前回記録中になっているIssueが無いか確認
     window.backend
-      .fetchState()
+      .fetchRecordingIssue()
       .then((id) => {
         this.selectedIssueId = id;
 
         // Issueの一覧取得
         window.backend
-          .fetchIssueList()
+          .fetchIssues()
           .then((res) => {
             if (id) {
               this.issueList = res.filter(issue => issue.id === id);
@@ -74,16 +74,16 @@ export default {
       })
   },
   methods: {
-    fetchIssueList() {
+    fetchIssues() {
       this.issueList = null;
       window.backend
-      .fetchState()
+      .fetchRecordingIssue()
       .then((id) => {
         this.selectedIssueId = id;
 
           // Issueの一覧取得
           window.backend
-            .fetchIssueList()
+            .fetchIssues()
             .then((res) => {
               if (id) {
                 this.issueList = res.filter(issue => issue.id === id);
@@ -106,7 +106,7 @@ export default {
         this.selectedIssueSummary = null;
         // 計測停止
         window.backend
-          .finish()
+          .finishMeasurement()
           .then((res) => {
             console.log(res);
           })
@@ -115,7 +115,7 @@ export default {
           });
         // Issueの一覧取得
         window.backend
-          .fetchIssueList()
+          .fetchIssues()
           .then((res) => {
             this.issueList = res;
           })
@@ -128,7 +128,7 @@ export default {
         this.selectedIssueSummary = summary;
         // 計測開始
         window.backend
-          .start(id)
+          .startMeasurement(id)
           .then((res) => {
             console.log(res);
           })

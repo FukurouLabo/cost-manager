@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func finish() error {
+func finishMeasurement() error {
 	histories, err := lib.IssueRead(lib.TodayPath)
 	if err != nil {
 		return err
