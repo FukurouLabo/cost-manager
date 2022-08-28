@@ -21,7 +21,7 @@ export default {
   mounted() {
     // Configファイルの存在確認
     window.backend
-      .fetchConfigFileExists()
+      .fetchConfig()
       .then((res) => {
         console.log(res);
         this.configFileExists = true;

@@ -32,7 +32,7 @@
         <input id="token" v-model="token" type="text">
       </div>
       <div class="submit-block">
-        <button class="submit" @click="createConfigFile">
+        <button class="submit" @click="createConfig">
           Submit
         </button>
       </div>
@@ -52,14 +52,13 @@ export default {
     }
   },
   methods: {
-    createConfigFile() {
+    createConfig() {
       // Configファイル生成
       window.backend
-        .createConfigFile(this.mail, this.token)
+        .createConfig(this.mail, this.token)
         .then((res) => {
           console.log(res);
-          // TODO:バックエンドの実装が完了したらコメントアウト撤去
-          // this.$router.push('/')
+          this.$router.push('/')
         })
         .catch((err) => {
           console.log(err);
