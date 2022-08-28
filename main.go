@@ -3,6 +3,7 @@ package main
 import (
 	"cost-manager/lib"
 	_ "embed"
+
 	"github.com/andygrunwald/go-jira"
 	"github.com/wailsapp/wails"
 )
@@ -35,6 +36,7 @@ func main() {
 		CSS:    css,
 		Colour: "#131313",
 	})
+
 	app.Bind(fetchIssues)
 	app.Bind(fetchRecordingIssue)
 	app.Bind(startMeasurement)
