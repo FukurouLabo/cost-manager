@@ -19,15 +19,15 @@ func init() {
 }
 
 func main() {
-
 	app := wails.CreateApp(&wails.AppConfig{
 		Width:  1024,
 		Height: 768,
 		Title:  "cost-manager",
 	})
+
 	app.Bind(fetchIssueList)
 	app.Bind(fetchState)
 	app.Bind(start)
 	app.Bind(finish)
-	app.Run()
+	_ = app.Run()
 }
