@@ -7,7 +7,9 @@ import (
 	"log"
 )
 
-func fetchState() string {
+func fetchRecordingIssue() string {
+	_ = lib.CacheInit()
+
 	histories, err := trackRead(lib.TodayPath)
 	if err != nil {
 		return ""
