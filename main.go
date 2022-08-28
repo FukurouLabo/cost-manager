@@ -16,8 +16,8 @@ func init() {
 	if err := fetchConfig(); err == nil {
 		jiraClient, _ = lib.NewJiraClient()
 		jiraUser, _, _ = jiraClient.Client.User.GetSelf()
-		_ = lib.CacheInit()
 	}
+	_ = lib.CacheInit()
 }
 
 //go:embed frontend/dist/app.js
