@@ -9,12 +9,12 @@ type JiraClient struct {
 }
 
 func NewJiraClient() (*JiraClient, error) {
-	jiraName, err := GetConfigString("jira_name")
+	jiraName, err := GetConfigString("mail")
 	if err != nil {
 		return nil, err
 	}
 
-	jiraToken, err := GetConfigString("jira_token")
+	jiraToken, err := GetConfigString("token")
 	if err != nil {
 		return nil, err
 	}
@@ -24,7 +24,7 @@ func NewJiraClient() (*JiraClient, error) {
 		Password: jiraToken,
 	}
 
-	jiraDomain, err := GetConfigString("jira_domain")
+	jiraDomain, err := GetConfigString("domain")
 	if err != nil {
 		return nil, err
 	}
