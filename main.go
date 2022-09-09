@@ -41,6 +41,7 @@ func main() {
 	app.Bind(fetchRecordingIssue)
 	app.Bind(startMeasurement)
 	app.Bind(finishMeasurement)
+	app.Bind(cancelMeasurement)
 	app.Bind(interruptMeasurement)
 	app.Bind(fetchConfig)
 	app.Bind(createConfig)
