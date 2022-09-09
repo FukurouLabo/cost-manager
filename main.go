@@ -42,6 +42,7 @@ func main() {
 	app.Bind(startMeasurement)
 	app.Bind(finishMeasurement)
 	app.Bind(cancelMeasurement)
+	app.Bind(interruptMeasurement)
 	app.Bind(fetchConfig)
 	app.Bind(createConfig)
 	app.Run()
