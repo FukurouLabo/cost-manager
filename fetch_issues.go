@@ -6,7 +6,7 @@ import (
 )
 
 func fetchIssues() []jira.Issue {
-	jql := "assignee=" + jiraUser.AccountID + "&status!=done"
+	jql := "assignee=" + jiraUser.AccountID + "&status!=done" + "&status!=完了"
 	issues, _, _ := jiraClient.Client.Issue.SearchWithContext(context.Background(), jql, nil)
 	return issues
 }
